@@ -1,0 +1,18 @@
+#include "Knight.h"
+#include "Move.h"
+#include "CommonUtils.h"
+
+bool Knight::isValidMove(const Move& move) const
+{
+	const int MIN_DIFF = 1;
+	const int MAX_DIFF = 2;
+
+	ChessCoordinate from = move.getFrom();
+	ChessCoordinate to = move.getTo();
+
+	int rowDiff = CommonUtils::abs(from.getRow() - to.getRow());
+	int colDiff = CommonUtils::abs(from.getCol() - to.getCol());
+
+	return (rowDiff == MIN_DIFF && colDiff == MAX_DIFF)
+		|| (rowDiff == MAX_DIFF && colDiff == MIN_DIFF);
+}
