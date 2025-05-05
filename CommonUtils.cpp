@@ -1,0 +1,24 @@
+#include "commonUtils.h"
+
+char CommonUtils::toLower(char ch)
+{
+	if (ch >= 'A' && ch <= 'Z')
+	{
+		return ch + ('a' - 'A');
+	}
+
+	return ch;
+}
+
+bool CommonUtils::isInRange(int value, int from, int to)
+{
+	return value >= from
+		&& value <= to;
+}
+
+int CommonUtils::abs(int number)
+{
+	return number >= 0
+		? number
+		: -1 * number;
+}
