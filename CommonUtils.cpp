@@ -10,6 +10,16 @@ char CommonUtils::toLower(char ch)
 	return ch;
 }
 
+char CommonUtils::toUpper(char ch)
+{
+	if (ch >= 'a' && ch <= 'z')
+	{
+		return ch + ('A' - 'a');
+	}
+
+	return ch;
+}
+
 bool CommonUtils::isInRange(int value, int from, int to)
 {
 	return value >= from
