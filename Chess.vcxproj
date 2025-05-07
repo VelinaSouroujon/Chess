@@ -128,26 +128,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Bishop.cpp" />
-    <ClCompile Include="BishopFactory.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Chess.cpp" />
     <ClCompile Include="CommonUtils.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="King.cpp" />
     <ClCompile Include="Knight.cpp" />
-    <ClCompile Include="KnightFactory.cpp" />
     <ClCompile Include="Move.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="ChessCoordinate.cpp" />
+    <ClCompile Include="PieceFactory.cpp" />
     <ClCompile Include="Queen.cpp" />
-    <ClCompile Include="QueenFactory.cpp" />
     <ClCompile Include="Rook.cpp" />
-    <ClCompile Include="RookFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bishop.h" />
-    <ClInclude Include="BishopFactory.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="CommonUtils.h" />
     <ClInclude Include="Constants.h" />
@@ -155,16 +151,13 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="King.h" />
     <ClInclude Include="Knight.h" />
-    <ClInclude Include="KnightFactory.h" />
     <ClInclude Include="Move.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Piece.h" />
-    <ClInclude Include="PieceFactory.h" />
     <ClInclude Include="ChessCoordinate.h" />
+    <ClInclude Include="PieceFactory.h" />
     <ClInclude Include="Queen.h" />
-    <ClInclude Include="QueenFactory.h" />
     <ClInclude Include="Rook.h" />
-    <ClInclude Include="RookFactory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

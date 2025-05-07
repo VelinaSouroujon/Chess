@@ -1,6 +1,11 @@
 #include "Pawn.h"
 #include "Move.h"
 
+char Pawn::getPieceNotation() const
+{
+	return Constants::PAWN_NOTATION;
+}
+
 bool Pawn::isValidMove(const Move& move) const
 {
 	ChessCoordinate from = move.getFrom();

@@ -2,6 +2,11 @@
 #include "Move.h"
 #include "CommonUtils.h"
 
+char Knight::getPieceNotation() const
+{
+	return Constants::KNIGHT_NOTATION;
+}
+
 bool Knight::isValidMove(const Move& move) const
 {
 	const int MIN_DIFF = 1;

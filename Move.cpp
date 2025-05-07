@@ -2,35 +2,11 @@
 #include "Move.h"
 #include "CommonUtils.h"
 #include "Constants.h"
-#include "RookFactory.h"
-#include "KnightFactory.h"
-#include "BishopFactory.h"
-#include "QueenFactory.h"
-
-PieceFactory* Move::pieceCharMap[Constants::ENGLISH_LETTERS_COUNT] = { nullptr };
-
-void Move::initPieceCharMap()
-{
-	const int FIRST_LETTER = 'A';
-
-	pieceCharMap['R' - FIRST_LETTER] = new RookFactory();
-	pieceCharMap['N' - FIRST_LETTER] = new KnightFactory();
-	pieceCharMap['B' - FIRST_LETTER] = new BishopFactory();
-	pieceCharMap['Q' - FIRST_LETTER] = new QueenFactory();
-}
-
-void Move::freePieceCharMap()
-{
-	for (int i = 0; i < Constants::ENGLISH_LETTERS_COUNT; i++)
-	{
-		delete pieceCharMap[i];
-	}
-}
+#include "PieceFactory.h"
 
 void Move::free()
 {
 	delete piece;
-	freePieceCharMap();
 }
 
 Move::Move(const Game& game, const char* notation)
@@ -46,8 +22,6 @@ Move::Move(const Game& game, const char* notation)
 	{
 		throw std::invalid_argument("Invalid notation length");
 	}
-
-	initPieceCharMap();
 
 	Piece* pieceToMove = nullptr;
 
@@ -82,11 +56,5 @@ bool Move::isCaptureMove() const
 
 Piece* Move::getPromotingPiece(char pieceChar) const
 {
-	CommonUtils::toUpper(pieceChar);
-	if (!CommonUtils::isInRange(pieceChar, 'A', 'Z'))
-	{
-		throw std::invalid_argument("Invalid piece character");
-	}
-
-	return pieceCharMap[pieceChar - 'A']->create();
+	return PieceFactory::createPiece(pieceChar);
 }

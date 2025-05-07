@@ -1,6 +1,11 @@
 #include "Bishop.h"
 #include "Move.h"
 
+char Bishop::getPieceNotation() const
+{
+	return Constants::BISHOP_NOTATION;
+}
+
 bool Bishop::isValidMove(const Move& move) const
 {
 	ChessCoordinate from = move.getFrom();

@@ -12,6 +12,8 @@ private:
 	ChessCoordinate position;
 
 public:
+	virtual char getPieceNotation() const = 0;
+
 	PieceColor getColor() const;
 	virtual bool isValidMove(const Move& move) const = 0;
 

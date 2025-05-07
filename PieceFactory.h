@@ -5,5 +5,6 @@
 class PieceFactory
 {
 public:
-	virtual Piece* create() const = 0;
+	static Piece* createPiece(char pieceNotation);
 };
+
