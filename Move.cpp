@@ -4,39 +4,65 @@
 #include "Constants.h"
 #include "PieceFactory.h"
 
-void Move::free()
-{
-	delete piece;
-}
-
-Move::Move(const Game& game, const char* notation)
+void Move::assignCoordinates(const char* notation)
 {
 	if (notation == nullptr)
 	{
 		throw std::invalid_argument("Notation cannot be null");
 	}
 
-	int notationLength = strlen(notation);
+	char from[Constants::MAX_NOTATION_LENGTH + 1];
+	char to[Constants::MAX_NOTATION_LENGTH + 1];
 
-	if (notationLength > Constants::MAX_NOTATION_LENGTH)
+	int idx = 0;
+
+	while (notation[idx] != '\0')
 	{
-		throw std::invalid_argument("Invalid notation length");
+		if (notation[idx] == Constants::CAPTURE_DELIMITER)
+		{
+			isCapture = true;
+			break;
+		}
+		if (notation[idx] == Constants::FROM_TO_DELIMITER)
+		{
+			break;
+		}
+		if (idx >= Constants::MAX_NOTATION_LENGTH)
+		{
+			throw std::invalid_argument("Invalid notation");
+		}
+
+		from[idx] = notation[idx];
+		idx++;
 	}
 
-	Piece* pieceToMove = nullptr;
+	from[idx] = '\0';
+	idx++;
 
-	int letterNotationIdx = 1;
-	int firstIdx = CommonUtils::toLower(notation[letterNotationIdx]) - 'a';
-	int secondIdx = notation[letterNotationIdx + 1] - '0';
+	this->from = convertToCoordinateFrom(from);
 
-	pieceToMove = game.board[firstIdx][secondIdx];
+	int toIdx = 0;
 
+	while (notation[idx] != '\0')
+	{
+		if (toIdx >= Constants::MAX_NOTATION_LENGTH)
+		{
+			throw std::invalid_argument("Invalid notation");
+		}
+
+		to[toIdx] = notation[idx];
+		idx++;
+		toIdx++;
+	}
+
+	to[toIdx] = '\0';
+
+	this->to = convertToCoordinateTo(to);
 }
 
-
-Move::~Move()
+Move::Move(const char* notation)
 {
-	free();
+	assignCoordinates(notation);
 }
 
 ChessCoordinate Move::getFrom() const
@@ -54,7 +80,81 @@ bool Move::isCaptureMove() const
 	return isCapture;
 }
 
-Piece* Move::getPromotingPiece(char pieceChar) const
+bool Move::execute(Board& board) const
 {
-	return PieceFactory::createPiece(pieceChar);
+	Piece* pieceToMove = board.at(from);
+	if (pieceToMove == nullptr)
+	{
+		return false;
+	}
+
+	if (pieceNotation != pieceToMove->getPieceNotation())
+	{
+		return false;
+	}
+
+	if (!pieceToMove->isValidMove(*this))
+	{
+		return false;
+	}
+
+	board.at(from) = nullptr;
+	board.at(to) = pieceToMove;
+
+	return true;
+}
+
+ChessCoordinate Move::convertToCoordinateFrom(const char* notation)
+{
+	if (notation == nullptr)
+	{
+		throw std::invalid_argument("Notation cannot be null");
+	}
+
+	int notationLength = strlen(notation);
+
+	int letterNotationIdx;
+	if (notationLength == Constants::MAX_NOTATION_LENGTH)
+	{
+		letterNotationIdx = 1;
+	}
+	else if (notationLength == Constants::MAX_NOTATION_LENGTH - 1)
+	{
+		letterNotationIdx = 0;
+	}
+	else
+	{
+		throw std::invalid_argument("Invalid notation length");
+	}
+
+	return convertToCoordinate(notation, letterNotationIdx);
+}
+
+ChessCoordinate Move::convertToCoordinateTo(const char* notation)
+{
+	if (notation == nullptr)
+	{
+		throw std::invalid_argument("Notation cannot be null");
+	}
+	if (strlen(notation) > Constants::MAX_NOTATION_LENGTH)
+	{
+		throw std::invalid_argument("Invalid notation length");
+	}
+
+	int letterNotationIdx = 0;
+
+	return convertToCoordinate(notation, letterNotationIdx);
+}
+
+ChessCoordinate Move::convertToCoordinate(const char* notation, int letterNotationIdx)
+{
+	if (notation == nullptr)
+	{
+		throw std::invalid_argument("Notation cannot be null");
+	}
+
+	char col = notation[letterNotationIdx];
+	int row = notation[letterNotationIdx + 1] - '0';
+
+	return ChessCoordinate(col, row);
 }

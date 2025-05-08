@@ -20,12 +20,18 @@ const Piece* Board::at(const ChessCoordinate& coordinate) const
 	return board[rowIdx][colIdx];
 }
 
-Piece* Board::at(const ChessCoordinate& coordinate)
+Piece*& Board::at(const ChessCoordinate& coordinate)
 {
 	int rowIdx = getBoardRowIdx(coordinate.getRow());
 	int colIdx = getBoardColIdx(coordinate.getCol());
 
 	return board[rowIdx][colIdx];
+}
+
+void Board::removeAt(const ChessCoordinate& coordinate)
+{
+	delete at(coordinate);
+	at(coordinate) = nullptr;
 }
 
 int Board::getSize() const

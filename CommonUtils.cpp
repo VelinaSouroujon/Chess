@@ -26,6 +26,12 @@ bool CommonUtils::isInRange(int value, int from, int to)
 		&& value <= to;
 }
 
+bool CommonUtils::isLetter(char ch)
+{
+	return isInRange(ch, 'a', 'z')
+		|| isInRange(ch, 'A', 'Z');
+}
+
 int CommonUtils::abs(int number)
 {
 	return number >= 0

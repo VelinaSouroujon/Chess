@@ -14,4 +14,7 @@ namespace Constants
 	const char QUEEN_NOTATION = 'Q';
 	const char KING_NOTATION = 'K';
 	const char PAWN_NOTATION = '\0';
+
+	const char CAPTURE_DELIMITER = 'x';
+	const char FROM_TO_DELIMITER = ' ';
 }

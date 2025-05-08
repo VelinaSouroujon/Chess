@@ -135,10 +135,12 @@
     <ClCompile Include="King.cpp" />
     <ClCompile Include="Knight.cpp" />
     <ClCompile Include="Move.cpp" />
+    <ClCompile Include="Moveable.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="ChessCoordinate.cpp" />
     <ClCompile Include="PieceFactory.cpp" />
+    <ClCompile Include="PromotionMove.cpp" />
     <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rook.cpp" />
   </ItemGroup>
@@ -152,10 +154,12 @@
     <ClInclude Include="King.h" />
     <ClInclude Include="Knight.h" />
     <ClInclude Include="Move.h" />
+    <ClInclude Include="Moveable.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="ChessCoordinate.h" />
     <ClInclude Include="PieceFactory.h" />
+    <ClInclude Include="PromotionMove.h" />
     <ClInclude Include="Queen.h" />
     <ClInclude Include="Rook.h" />
   </ItemGroup>

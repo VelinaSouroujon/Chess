@@ -2,10 +2,11 @@
 
 #include "Piece.h"
 #include "Constants.h"
+#include "Board.h"
 
 class Game
 {
 public:
-	Piece* board[Constants::BOARD_SIZE][Constants::BOARD_SIZE];
+	Board board;
 };
 

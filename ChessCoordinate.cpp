@@ -21,12 +21,14 @@ int ChessCoordinate::getRow() const
 
 void ChessCoordinate::setCol(char value)
 {
-	if (!CommonUtils::isInRange(value, Constants::MIN_COL_COORDINATE, Constants::MAX_COL_COORDINATE))
+	char lowerCaseValue = CommonUtils::toLower(value);
+
+	if (!CommonUtils::isInRange(lowerCaseValue, Constants::MIN_COL_COORDINATE, Constants::MAX_COL_COORDINATE))
 	{
 		throw std::out_of_range("Column is out of range");
 	}
 
-	col = value;
+	col = lowerCaseValue;
 }
 
 void ChessCoordinate::setRow(int value)
