@@ -21,5 +21,7 @@ public:
 	bool isSameRow(const ChessCoordinate& other) const;
 	bool isSameCol(const ChessCoordinate& other) const;
 	bool isSameDiagonal(const ChessCoordinate& other) const;
+	bool isSameDiagonalLeftToRight(const ChessCoordinate& other) const;
+	bool isSameDiagonalRightToLeft(const ChessCoordinate& other) const;
 	bool isNeighborWith(const ChessCoordinate& other) const;
 };

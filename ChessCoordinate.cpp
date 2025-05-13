@@ -53,8 +53,18 @@ bool ChessCoordinate::isSameCol(const ChessCoordinate& other) const
 
 bool ChessCoordinate::isSameDiagonal(const ChessCoordinate& other) const
 {
-	return col + row == other.col + other.row
-		|| col - row == other.col - other.row;
+	return isSameDiagonalRightToLeft(other)
+		|| isSameDiagonalLeftToRight(other);
+}
+
+bool ChessCoordinate::isSameDiagonalLeftToRight(const ChessCoordinate& other) const
+{
+	return col - row == other.col - other.row;
+}
+
+bool ChessCoordinate::isSameDiagonalRightToLeft(const ChessCoordinate& other) const
+{
+	return col + row == other.col + other.row;
 }
 
 bool ChessCoordinate::isNeighborWith(const ChessCoordinate& other) const
