@@ -18,3 +18,8 @@ bool Bishop::isValidMove(const Move& move) const
 
 	return to.isSameDiagonal(from);
 }
+
+wchar_t Bishop::accept(const PieceRenderer& renderer) const
+{
+	return renderer.getRepresentation(*this);
+}

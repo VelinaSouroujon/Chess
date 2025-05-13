@@ -19,3 +19,8 @@ bool Rook::isValidMove(const Move& move) const
     return from.isSameRow(to)
         || from.isSameCol(to);
 }
+
+wchar_t Rook::accept(const PieceRenderer& renderer) const
+{
+    return renderer.getRepresentation(*this);
+}

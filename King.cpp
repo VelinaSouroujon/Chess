@@ -18,3 +18,8 @@ bool King::isValidMove(const Move& move) const
 
 	return from.isNeighborWith(to);
 }
+
+wchar_t King::accept(const PieceRenderer& renderer) const
+{
+	return renderer.getRepresentation(*this);
+}

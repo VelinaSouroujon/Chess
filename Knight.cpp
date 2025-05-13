@@ -26,3 +26,8 @@ bool Knight::isValidMove(const Move& move) const
 	return (rowDiff == MIN_DIFF && colDiff == MAX_DIFF)
 		|| (rowDiff == MAX_DIFF && colDiff == MIN_DIFF);
 }
+
+wchar_t Knight::accept(const PieceRenderer& renderer) const
+{
+	return renderer.getRepresentation(*this);
+}

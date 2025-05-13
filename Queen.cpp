@@ -20,3 +20,8 @@ bool Queen::isValidMove(const Move& move) const
 		|| from.isSameCol(to)
 		|| from.isSameDiagonal(to);
 }
+
+wchar_t Queen::accept(const PieceRenderer& renderer) const
+{
+	return renderer.getRepresentation(*this);
+}

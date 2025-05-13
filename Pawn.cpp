@@ -25,3 +25,8 @@ bool Pawn::isValidMove(const Move& move) const
 	return to.getRow() - from.getRow() == (int)getColor()
 		&& to.isSameCol(from);
 }
+
+wchar_t Pawn::accept(const PieceRenderer& renderer) const
+{
+	return renderer.getRepresentation(*this);
+}

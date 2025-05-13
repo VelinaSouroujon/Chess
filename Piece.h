@@ -20,6 +20,7 @@ public:
 	PieceColor getColor() const;
 
 	virtual bool isValidMove(const Move& move) const = 0;
+	virtual wchar_t accept(const PieceRenderer& renderer) const = 0;
 
 	ChessCoordinate getPosition() const;
 	void setPosition(const ChessCoordinate& newPosition);
