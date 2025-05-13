@@ -17,6 +17,7 @@ public:
 	Piece*& at(const ChessCoordinate& coordinate);
 	void removeAt(const ChessCoordinate& coordinate);
 
+	bool removeAt(const ChessCoordinate& coordinate);
 	int getSize() const;
 };
 

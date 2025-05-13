@@ -28,10 +28,18 @@ Piece*& Board::at(const ChessCoordinate& coordinate)
 	return board[rowIdx][colIdx];
 }
 
-void Board::removeAt(const ChessCoordinate& coordinate)
 {
+bool Board::removeAt(const ChessCoordinate& coordinate)
+{
+	if (at(coordinate) == nullptr)
+	{
+		return false;
+	}
+
 	delete at(coordinate);
 	at(coordinate) = nullptr;
+
+	return true;
 }
 
 int Board::getSize() const
