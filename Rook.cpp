@@ -1,6 +1,11 @@
 #include "Rook.h"
 #include "Move.h"
 
+Rook::Rook(PieceColor color) : Piece(color)
+{
+
+}
+
 char Rook::getPieceNotation() const
 {
     return Constants::ROOK_NOTATION;

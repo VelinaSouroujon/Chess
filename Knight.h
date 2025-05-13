@@ -5,6 +5,8 @@
 class Knight : public Piece
 {
 public:
+	Knight(PieceColor color);
+
 	char getPieceNotation() const override;
 	bool isValidMove(const Move& move) const override;
 };

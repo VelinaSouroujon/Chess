@@ -1,6 +1,11 @@
 #include "Pawn.h"
 #include "Move.h"
 
+Pawn::Pawn(PieceColor color) : Piece(color)
+{
+
+}
+
 char Pawn::getPieceNotation() const
 {
 	return Constants::PAWN_NOTATION;

@@ -2,6 +2,7 @@
 
 #include "ChessCoordinate.h"
 #include "Enums.h"
+#include "PieceRenderer.h"
 
 class Move;
 
@@ -12,9 +13,12 @@ private:
 	ChessCoordinate position;
 
 public:
-	virtual char getPieceNotation() const = 0;
+	Piece(PieceColor color);
+	virtual ~Piece() = default;
 
+	virtual char getPieceNotation() const = 0;
 	PieceColor getColor() const;
+
 	virtual bool isValidMove(const Move& move) const = 0;
 
 	ChessCoordinate getPosition() const;

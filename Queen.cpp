@@ -1,6 +1,11 @@
 #include "Queen.h"
 #include "Move.h"
 
+Queen::Queen(PieceColor color) : Piece(color)
+{
+
+}
+
 char Queen::getPieceNotation() const
 {
 	return Constants::QUEEN_NOTATION;

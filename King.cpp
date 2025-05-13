@@ -1,6 +1,11 @@
 #include "King.h"
 #include "Move.h"
 
+King::King(PieceColor color) : Piece(color)
+{
+
+}
+
 char King::getPieceNotation() const
 {
 	return Constants::KING_NOTATION;

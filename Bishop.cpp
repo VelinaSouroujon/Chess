@@ -1,5 +1,10 @@
-#include "Bishop.h"
+﻿#include "Bishop.h"
 #include "Move.h"
+
+Bishop::Bishop(PieceColor color) : Piece(color)
+{
+
+}
 
 char Bishop::getPieceNotation() const
 {

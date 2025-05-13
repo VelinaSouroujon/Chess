@@ -2,6 +2,11 @@
 #include "Move.h"
 #include "CommonUtils.h"
 
+Knight::Knight(PieceColor color) : Piece(color)
+{
+
+}
+
 char Knight::getPieceNotation() const
 {
 	return Constants::KNIGHT_NOTATION;

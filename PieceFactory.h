@@ -5,6 +5,6 @@
 class PieceFactory
 {
 public:
-	static Piece* createPiece(char pieceNotation);
+	static Piece* createPiece(char pieceNotation, PieceColor color);
 };
 

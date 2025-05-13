@@ -6,23 +6,23 @@
 #include "Bishop.h"
 #include "Queen.h"
 
-Piece* PieceFactory::createPiece(char pieceNotation)
+Piece* PieceFactory::createPiece(char pieceNotation, PieceColor color)
 {
 	char upperNotation = CommonUtils::toUpper(pieceNotation);
 
 	switch (upperNotation)
 	{
 	case Constants::ROOK_NOTATION:
-		return new Rook();
+		return new Rook(color);
 
 	case Constants::KNIGHT_NOTATION:
-		return new Knight();
+		return new Knight(color);
 
 	case Constants::BISHOP_NOTATION:
-		return new Bishop();
+		return new Bishop(color);
 
 	case Constants::QUEEN_NOTATION:
-		return new Queen();
+		return new Queen(color);
 
 	default:
 		throw std::invalid_argument("Invalid piece notation");
