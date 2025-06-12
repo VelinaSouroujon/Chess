@@ -30,3 +30,8 @@ wchar_t Pawn::accept(const PieceRenderer& renderer) const
 {
 	return renderer.getRepresentation(*this);
 }
+
+Piece* Pawn::clone() const
+{
+	return new Pawn(*this);
+}

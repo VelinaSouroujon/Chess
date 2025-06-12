@@ -23,3 +23,8 @@ wchar_t King::accept(const PieceRenderer& renderer) const
 {
 	return renderer.getRepresentation(*this);
 }
+
+Piece* King::clone() const
+{
+	return new King(*this);
+}

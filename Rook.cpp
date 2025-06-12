@@ -24,3 +24,8 @@ wchar_t Rook::accept(const PieceRenderer& renderer) const
 {
     return renderer.getRepresentation(*this);
 }
+
+Piece* Rook::clone() const
+{
+    return new Rook(*this);
+}

@@ -25,3 +25,8 @@ wchar_t Queen::accept(const PieceRenderer& renderer) const
 {
 	return renderer.getRepresentation(*this);
 }
+
+Piece* Queen::clone() const
+{
+	return new Queen(*this);
+}

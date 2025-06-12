@@ -23,3 +23,8 @@ wchar_t Bishop::accept(const PieceRenderer& renderer) const
 {
 	return renderer.getRepresentation(*this);
 }
+
+Piece* Bishop::clone() const
+{
+	return new Bishop(*this);
+}

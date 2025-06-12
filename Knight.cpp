@@ -31,3 +31,8 @@ wchar_t Knight::accept(const PieceRenderer& renderer) const
 {
 	return renderer.getRepresentation(*this);
 }
+
+Piece* Knight::clone() const
+{
+	return new Knight(*this);
+}
