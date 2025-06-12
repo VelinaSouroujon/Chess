@@ -140,12 +140,30 @@ const Piece* Board::at(const ChessCoordinate& coordinate) const
 	return board[rowIdx][colIdx];
 }
 
-Piece*& Board::at(const ChessCoordinate& coordinate)
+Piece* Board::at(const ChessCoordinate& coordinate)
 {
 	int rowIdx = getBoardRowIdx(coordinate);
 	int colIdx = getBoardColIdx(coordinate);
 
 	return board[rowIdx][colIdx];
+}
+
+void Board::setAt(const ChessCoordinate& coordinate, Piece* piece)
+{
+	simulateSetAt(coordinate, piece);
+
+	if (piece != nullptr)
+	{
+		piece->setPosition(coordinate);
+	}
+}
+
+void Board::simulateSetAt(const ChessCoordinate& coordinate, Piece* piece)
+{
+	int rowIdx = getBoardRowIdx(coordinate);
+	int colIdx = getBoardColIdx(coordinate);
+
+	board[rowIdx][colIdx] = piece;
 }
 
 const Piece* Board::at(char col, int row) const
@@ -155,31 +173,44 @@ const Piece* Board::at(char col, int row) const
 	return at(coordinate);
 }
 
-Piece*& Board::at(char col, int row)
+Piece* Board::at(char col, int row)
 {
 	ChessCoordinate coordinate(col, row);
 
 	return at(coordinate);
 }
 
-bool Board::isPieceBetween(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const
+void Board::setAt(char col, int row, Piece* piece)
 {
-	return isPieceBetweenSameCol(firstCoord, secondCoord)
-		|| isPieceBetweenSameRow(firstCoord, secondCoord)
-		|| isPieceBetweenSameDiagonal(firstCoord, secondCoord);
+	ChessCoordinate coordinate(col, row);
+
+	setAt(coordinate, piece);
 }
 
-bool Board::removeAt(const ChessCoordinate& coordinate)
+void Board::simulateSetAt(char col, int row, Piece* piece)
 {
-	if (at(coordinate) == nullptr)
+	ChessCoordinate coordinate(col, row);
+
+	simulateSetAt(coordinate, piece);
+}
+
+//void Board::createPieceOnSquare(char pieceNotation, const ChessCoordinate& square, PieceColor color)
+//{
+//	Piece* newPiece = PieceFactory::createPiece(pieceNotation, color);
+//}
+
+void Board::deletePiece(Piece*& piece)
+{
+	delete piece;
+	piece = nullptr;
+}
+
+{
 	{
 		return false;
 	}
 
-	delete at(coordinate);
-	at(coordinate) = nullptr;
 
-	return true;
 }
 
 int Board::getSize() const
