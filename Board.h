@@ -19,6 +19,12 @@ private:
 	bool isPieceBetweenSameDiagonal(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const;
 
 public:
+	Board() = default;
+	Board(const Board& other) = delete;
+	Board& operator=(const Board& other) = delete;
+
+	~Board();
+
 	const Piece* at(const ChessCoordinate& coordinate) const;
 	Piece* at(const ChessCoordinate& coordinate);
 	void setAt(const ChessCoordinate& coordinate, Piece* piece);

@@ -126,10 +126,15 @@ bool Board::isPieceBetweenSameDiagonalRightToLeft(const ChessCoordinate& firstCo
 	return false;
 }
 
-bool Board::isPieceBetweenSameDiagonal(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const
+Board::~Board()
 {
-	return isPieceBetweenSameDiagonalLeftToRight(firstCoord, secondCoord)
-		|| isPieceBetweenSameDiagonalRightToLeft(firstCoord, secondCoord);
+	for (int i = 0; i < Constants::BOARD_SIZE; i++)
+	{
+		for (int j = 0; j < Constants::BOARD_SIZE; j++)
+		{
+			deletePiece(board[i][j]);
+		}
+	}
 }
 
 const Piece* Board::at(const ChessCoordinate& coordinate) const
