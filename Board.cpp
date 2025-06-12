@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include "Piece.h"
 #include "Board.h"
 #include "CommonUtils.h"
 
@@ -12,7 +13,7 @@ int Board::getBoardColIdx(const ChessCoordinate& coordinate) const
 	return coordinate.getCol() - Constants::MIN_COL_COORDINATE;
 }
 
-bool Board::isPieceBetweenSameRow(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const
+bool Board::getPathBetweenSameRow(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const
 {
 	if (!firstCoord.isSameRow(secondCoord))
 	{
@@ -28,18 +29,22 @@ bool Board::isPieceBetweenSameRow(const ChessCoordinate& firstCoord, const Chess
 		std::swap(firstCol, secondCol);
 	}
 
+	int idxPath = 0;
+
 	for (int col = firstCol + 1; col < secondCol; col++)
 	{
-		if (at(col, row) != nullptr)
-		{
-			return true;
-		}
+		ChessCoordinate squareBetween(col, row);
+
+		path[idxPath] = squareBetween;
+		idxPath++;
 	}
 
-	return false;
+	pathLength = idxPath;
+
+	return true;
 }
 
-bool Board::isPieceBetweenSameCol(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const
+bool Board::getPathBetweenSameCol(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const
 {
 	if (!firstCoord.isSameCol(secondCoord))
 	{
@@ -55,18 +60,22 @@ bool Board::isPieceBetweenSameCol(const ChessCoordinate& firstCoord, const Chess
 		std::swap(firstRow, secondRow);
 	}
 
+	int idxPath = 0;
+
 	for (int row = firstRow + 1; row < secondRow; row++)
 	{
-		if (at(col, row) != nullptr)
-		{
-			return true;
-		}
+		ChessCoordinate squareBetween(col, row);
+
+		path[idxPath] = squareBetween;
+		idxPath++;
 	}
 
-	return false;
+	pathLength = idxPath;
+
+	return true;
 }
 
-bool Board::isPieceBetweenSameDiagonalLeftToRight(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const
+bool Board::getPathBetweenSameDiagonalLeftToRight(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const
 {
 	if (!firstCoord.isSameDiagonalLeftToRight(secondCoord))
 	{
@@ -83,20 +92,24 @@ bool Board::isPieceBetweenSameDiagonalLeftToRight(const ChessCoordinate& firstCo
 		col = secondCoord.getCol();
 	}
 
+	int idxPath = 0;
+
 	for (int row = firstRow - 1; row > secondRow; row--)
 	{
 		col++;
 
-		if (at(col, row) != nullptr)
-		{
-			return true;
-		}
+		ChessCoordinate squareBetween(col, row);
+
+		path[idxPath] = squareBetween;
+		idxPath++;
 	}
 
-	return false;
+	pathLength = idxPath;
+
+	return true;
 }
 
-bool Board::isPieceBetweenSameDiagonalRightToLeft(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const
+bool Board::getPathBetweenSameDiagonalRightToLeft(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const
 {
 	if (!firstCoord.isSameDiagonalRightToLeft(secondCoord))
 	{
@@ -113,17 +126,27 @@ bool Board::isPieceBetweenSameDiagonalRightToLeft(const ChessCoordinate& firstCo
 		col = secondCoord.getCol();
 	}
 
+	int idxPath = 0;
+
 	for (int row = firstRow - 1; row > secondRow; row--)
 	{
 		col--;
 
-		if (at(col, row) != nullptr)
-		{
-			return true;
-		}
+		ChessCoordinate squareBetween(col, row);
+
+		path[idxPath] = squareBetween;
+		idxPath++;
 	}
 
-	return false;
+	pathLength = idxPath;
+
+	return true;
+}
+
+bool Board::getPathBetweenSameDiagonal(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const
+{
+	return getPathBetweenSameDiagonalLeftToRight(firstCoord, secondCoord, path, pathLength)
+		|| getPathBetweenSameDiagonalRightToLeft(firstCoord, secondCoord, path, pathLength);
 }
 
 Board::~Board()
@@ -210,12 +233,37 @@ void Board::deletePiece(Piece*& piece)
 	piece = nullptr;
 }
 
+bool Board::tryGetPathBetweenTwoSquares(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const
 {
+	return getPathBetweenSameCol(firstCoord, secondCoord, path, pathLength)
+		|| getPathBetweenSameRow(firstCoord, secondCoord, path, pathLength)
+		|| getPathBetweenSameDiagonal(firstCoord, secondCoord, path, pathLength);
+}
+
+bool Board::isPieceBetween(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const
+{
+	const int MAX_PATH_LENGTH = Constants::BOARD_SIZE - 2;
+	ChessCoordinate path[MAX_PATH_LENGTH];
+	int pathLength = 0;
+
+	bool isTherePath = tryGetPathBetweenTwoSquares(firstCoord, secondCoord, path, pathLength);
+
+	if (!isTherePath)
 	{
 		return false;
 	}
 
+	for (int i = 0; i < pathLength; i++)
+	{
+		const ChessCoordinate& squareBetween = path[i];
 
+		if (at(squareBetween) != nullptr)
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 int Board::getSize() const

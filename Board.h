@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Piece.h"
 #include "Constants.h"
 #include "ChessCoordinate.h"
+
+class Piece;
 
 class Board
 {
@@ -12,11 +13,11 @@ private:
 	int getBoardRowIdx(const ChessCoordinate& coordinate) const;
 	int getBoardColIdx(const ChessCoordinate& coordinate) const;
 
-	bool isPieceBetweenSameRow(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const;
-	bool isPieceBetweenSameCol(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const;
-	bool isPieceBetweenSameDiagonalLeftToRight(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const;
-	bool isPieceBetweenSameDiagonalRightToLeft(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const;
-	bool isPieceBetweenSameDiagonal(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const;
+	bool getPathBetweenSameRow(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const;
+	bool getPathBetweenSameCol(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const;
+	bool getPathBetweenSameDiagonalLeftToRight(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const;
+	bool getPathBetweenSameDiagonalRightToLeft(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const;
+	bool getPathBetweenSameDiagonal(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const;
 
 public:
 	Board() = default;
@@ -38,8 +39,8 @@ public:
 	//void createPieceOnSquare(char pieceNotation, const ChessCoordinate& square, PieceColor color);
 	void deletePiece(Piece*& piece);
 
+	bool tryGetPathBetweenTwoSquares(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const;
 	bool isPieceBetween(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord) const;
-	bool removeAt(const ChessCoordinate& coordinate);
 	int getSize() const;
 };
 
