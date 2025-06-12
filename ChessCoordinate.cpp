@@ -78,3 +78,14 @@ bool ChessCoordinate::isNeighborWith(const ChessCoordinate& other) const
 	return CommonUtils::isInRange(rowsDiff, MIN_DIFF, MAX_DIFF)
 		&& CommonUtils::isInRange(colsDiff, MIN_DIFF, MAX_DIFF);
 }
+
+bool operator==(const ChessCoordinate& left, const ChessCoordinate& right)
+{
+	return left.getRow() == right.getRow()
+		&& left.getCol() == right.getCol();
+}
+
+bool operator!=(const ChessCoordinate& left, const ChessCoordinate& right)
+{
+	return !(left == right);
+}

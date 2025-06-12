@@ -25,3 +25,6 @@ public:
 	bool isSameDiagonalRightToLeft(const ChessCoordinate& other) const;
 	bool isNeighborWith(const ChessCoordinate& other) const;
 };
+
+bool operator==(const ChessCoordinate& left, const ChessCoordinate& right);
+bool operator!=(const ChessCoordinate& left, const ChessCoordinate& right);
