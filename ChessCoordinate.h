@@ -2,7 +2,7 @@
 
 #include "Constants.h"
 
-struct ChessCoordinate
+class ChessCoordinate
 {
 private:
 	int row = Constants::MIN_ROW_COORDINATE;
