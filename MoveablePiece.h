@@ -5,10 +5,11 @@
 class MoveablePiece : public Piece
 {
 private:
-	bool isSetDuringInit = true;
+	bool isInitialization = true;
 	bool hasMoved = false;
 
 protected:
+	bool getIsInitialization() const;
 	void setPosition(const ChessCoordinate& value) override;
 
 public:

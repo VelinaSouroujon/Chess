@@ -1,12 +1,17 @@
 #include "MoveablePiece.h"
 
+bool MoveablePiece::getIsInitialization() const
+{
+    return isInitialization;
+}
+
 void MoveablePiece::setPosition(const ChessCoordinate& value)
 {
     Piece::setPosition(value);
 
-    if (isSetDuringInit)
+    if (isInitialization)
     {
-        isSetDuringInit = false;
+        isInitialization = false;
     }
     else
     {
