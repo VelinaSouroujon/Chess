@@ -5,9 +5,19 @@
 class StandardChessVariant : public ChessVariant
 {
 private:
-	void initPiecesOnBoard() override;
+	const ChessCoordinate whiteKingInitialPos;
+	const ChessCoordinate whiteQueenSideRookInitialPos;
+	const ChessCoordinate whiteKingSideRookInitialPos;
+
+	const ChessCoordinate blackKingInitialPos;
+	const ChessCoordinate blackQueenSideRookInitialPos;
+	const ChessCoordinate blackKingSideRookInitialPos;
 
 public:
-	StandardChessVariant();
+	StandardChessVariant(IPieceFactory& iPieceFactory);
+
+	const ChessCoordinate& kingInitialPos(PieceColor color) const override;
+	const ChessCoordinate& queenSideRookInitialPos(PieceColor color) const override;
+	const ChessCoordinate& kingSideRookInitialPos(PieceColor color) const override;
 };
 

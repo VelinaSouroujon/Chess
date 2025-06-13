@@ -7,49 +7,73 @@
 #include "Queen.h"
 #include "King.h"
 
-StandardChessVariant::StandardChessVariant()
+StandardChessVariant::StandardChessVariant(IPieceFactory& iPieceFactory)
+	: ChessVariant(iPieceFactory),
+	whiteKingInitialPos('e', 1),
+	whiteQueenSideRookInitialPos('a', 1),
+	whiteKingSideRookInitialPos('h', 1),
+	blackKingInitialPos('e', 8),
+	blackQueenSideRookInitialPos('a', 8),
+	blackKingSideRookInitialPos('h', 8)
 {
-	initPiecesOnBoard();
+	Board& board = getBoard();
+	const IPieceFactory& pieceFactory = getPieceFactory();
+
+	board.setAt('a', 1, pieceFactory.createPiece(Constants::ROOK_NOTATION, PieceColor::White));
+	board.setAt('b', 1, pieceFactory.createPiece(Constants::KNIGHT_NOTATION, PieceColor::White));
+	board.setAt('c', 1, pieceFactory.createPiece(Constants::BISHOP_NOTATION, PieceColor::White));
+	board.setAt('d', 1, pieceFactory.createPiece(Constants::QUEEN_NOTATION, PieceColor::White));
+	board.setAt('e', 1, pieceFactory.createPiece(Constants::KING_NOTATION, PieceColor::White));
+	board.setAt('f', 1, pieceFactory.createPiece(Constants::BISHOP_NOTATION, PieceColor::White));
+	board.setAt('g', 1, pieceFactory.createPiece(Constants::KNIGHT_NOTATION, PieceColor::White));
+	board.setAt('h', 1, pieceFactory.createPiece(Constants::ROOK_NOTATION, PieceColor::White));
+
+	board.setAt('a', 2, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::White));
+	board.setAt('b', 2, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::White));
+	board.setAt('c', 2, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::White));
+	board.setAt('d', 2, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::White));
+	board.setAt('e', 2, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::White));
+	board.setAt('f', 2, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::White));
+	board.setAt('g', 2, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::White));
+	board.setAt('h', 2, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::White));
+
+
+	board.setAt('a', 8, pieceFactory.createPiece(Constants::ROOK_NOTATION, PieceColor::Black));
+	board.setAt('b', 8, pieceFactory.createPiece(Constants::KNIGHT_NOTATION, PieceColor::Black));
+	board.setAt('c', 8, pieceFactory.createPiece(Constants::BISHOP_NOTATION, PieceColor::Black));
+	board.setAt('d', 8, pieceFactory.createPiece(Constants::QUEEN_NOTATION, PieceColor::Black));
+	board.setAt('e', 8, pieceFactory.createPiece(Constants::KING_NOTATION, PieceColor::Black));
+	board.setAt('f', 8, pieceFactory.createPiece(Constants::BISHOP_NOTATION, PieceColor::Black));
+	board.setAt('g', 8, pieceFactory.createPiece(Constants::KNIGHT_NOTATION, PieceColor::Black));
+	board.setAt('h', 8, pieceFactory.createPiece(Constants::ROOK_NOTATION, PieceColor::Black));
+
+	board.setAt('a', 7, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::Black));
+	board.setAt('b', 7, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::Black));
+	board.setAt('c', 7, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::Black));
+	board.setAt('d', 7, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::Black));
+	board.setAt('e', 7, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::Black));
+	board.setAt('f', 7, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::Black));
+	board.setAt('g', 7, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::Black));
+	board.setAt('h', 7, pieceFactory.createPiece(Constants::PAWN_NOTATION, PieceColor::Black));
 }
 
-void StandardChessVariant::initPiecesOnBoard()
+const ChessCoordinate& StandardChessVariant::kingInitialPos(PieceColor color) const
 {
-	Board& board = getBoardRef();
+	return color == PieceColor::White
+		? whiteKingInitialPos
+		: blackKingInitialPos;
+}
 
-	board.at('a', 1) = new Rook(PieceColor::White);
-	board.at('b', 1) = new Knight(PieceColor::White);
-	board.at('c', 1) = new Bishop(PieceColor::White);
-	board.at('d', 1) = new Queen(PieceColor::White);
-	board.at('e', 1) = new King(PieceColor::White);
-	board.at('f', 1) = new Bishop(PieceColor::White);
-	board.at('g', 1) = new Knight(PieceColor::White);
-	board.at('h', 1) = new Rook(PieceColor::White);
+const ChessCoordinate& StandardChessVariant::queenSideRookInitialPos(PieceColor color) const
+{
+	return color == PieceColor::White
+		? whiteQueenSideRookInitialPos
+		: blackQueenSideRookInitialPos;
+}
 
-	board.at('a', 2) = new Pawn(PieceColor::White);
-	board.at('b', 2) = new Pawn(PieceColor::White);
-	board.at('c', 2) = new Pawn(PieceColor::White);
-	board.at('d', 2) = new Pawn(PieceColor::White);
-	board.at('e', 2) = new Pawn(PieceColor::White);
-	board.at('f', 2) = new Pawn(PieceColor::White);
-	board.at('g', 2) = new Pawn(PieceColor::White);
-	board.at('h', 2) = new Pawn(PieceColor::White);
-
-
-	board.at('a', 8) = new Rook(PieceColor::Black);
-	board.at('b', 8) = new Knight(PieceColor::Black);
-	board.at('c', 8) = new Bishop(PieceColor::Black);
-	board.at('d', 8) = new Queen(PieceColor::Black);
-	board.at('e', 8) = new King(PieceColor::Black);
-	board.at('f', 8) = new Bishop(PieceColor::Black);
-	board.at('g', 8) = new Knight(PieceColor::Black);
-	board.at('h', 8) = new Rook(PieceColor::Black);
-
-	board.at('a', 7) = new Pawn(PieceColor::Black);
-	board.at('b', 7) = new Pawn(PieceColor::Black);
-	board.at('c', 7) = new Pawn(PieceColor::Black);
-	board.at('d', 7) = new Pawn(PieceColor::Black);
-	board.at('e', 7) = new Pawn(PieceColor::Black);
-	board.at('f', 7) = new Pawn(PieceColor::Black);
-	board.at('g', 7) = new Pawn(PieceColor::Black);
-	board.at('h', 7) = new Pawn(PieceColor::Black);
+const ChessCoordinate& StandardChessVariant::kingSideRookInitialPos(PieceColor color) const
+{
+	return color == PieceColor::White
+		? whiteKingSideRookInitialPos
+		: blackKingSideRookInitialPos;
 }

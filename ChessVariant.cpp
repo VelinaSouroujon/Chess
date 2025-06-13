@@ -1,11 +1,22 @@
 #include "ChessVariant.h"
 
-Board& ChessVariant::getBoardRef()
+Board& ChessVariant::getBoard()
 {
 	return board;
 }
 
-Board ChessVariant::getBoard() const
+const IPieceFactory& ChessVariant::getPieceFactory() const
+{
+	return iPieceFactory;
+}
+
+ChessVariant::ChessVariant(IPieceFactory& iPieceFactory)
+	: iPieceFactory(iPieceFactory)
+{
+
+}
+
+const Board& ChessVariant::getBoard() const
 {
 	return board;
 }
