@@ -6,13 +6,13 @@
 class UserInterface
 {
 private:
-	PieceRenderer* pieceRenderer = nullptr;
+	PieceRenderer& pieceRenderer;
 
 protected:
-	PieceRenderer* getPieceRenderer() const;
+	const PieceRenderer& getPieceRenderer() const;
 
 public:
-	UserInterface(PieceRenderer* pieceRenderer);
+	UserInterface(PieceRenderer& pieceRenderer);
 	virtual ~UserInterface() = default;
 
 	virtual void drawBoard(const Board& board) const = 0;
