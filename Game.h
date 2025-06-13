@@ -6,7 +6,10 @@
 
 class Game
 {
+	ChessCoordinate enPassantSquare;
+	EnPassantState enPassantState = EnPassantState::None;
 public:
 	Board board;
+	void changeTurn();
 };
 
