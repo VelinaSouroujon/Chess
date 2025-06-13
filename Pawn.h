@@ -1,13 +1,19 @@
 #pragma once
 
-#include "Piece.h"
 #include "Board.h"
-#include "Moveable.h"
+#include "MoveablePiece.h"
+#include "PieceMediator.h"
 
-class Pawn : public Piece, public Moveable
+class Pawn : public MoveablePiece
 {
+private:
+	PieceMediator& mediator;
+
+protected:
+	void setPosition(const ChessCoordinate& coordinate) override;
+
 public:
-	Pawn(PieceColor color);
+	Pawn(PieceColor color, PieceMediator& pawnMediator);
 
 	char getPieceNotation() const override;
 	bool isValidMove(const Move& move) const override;

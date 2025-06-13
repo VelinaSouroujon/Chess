@@ -1,7 +1,23 @@
 #include "Pawn.h"
 #include "Move.h"
+#include "CommonUtils.h"
 
-Pawn::Pawn(PieceColor color) : Piece(color)
+void Pawn::setPosition(const ChessCoordinate& coordinate)
+{
+	const int EN_PASSANT_POSSIBLE_ROW_DIFF = 2;
+	int absRowDiff = CommonUtils::abs(coordinate.getRow() - getPosition().getRow());
+
+	MoveablePiece::setPosition(coordinate);
+
+	if (absRowDiff == EN_PASSANT_POSSIBLE_ROW_DIFF)
+	{
+		mediator.notifyMove(*this);
+	}
+}
+
+Pawn::Pawn(PieceColor color, PieceMediator& pawnMediator) 
+	: MoveablePiece(color),
+	mediator(pawnMediator)
 {
 
 }
