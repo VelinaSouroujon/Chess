@@ -13,3 +13,10 @@ enum class EnPassantState
 	ToBeResetAfterOneMove,
 	Count
 };
+
+enum class CheckState
+{
+	None,
+	Check,
+	DoubleCheck
+};
