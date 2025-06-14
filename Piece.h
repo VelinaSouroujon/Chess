@@ -15,6 +15,9 @@ private:
 	PieceColor color = PieceColor::White;
 	ChessCoordinate position;
 
+	friend void Board::setAt(const ChessCoordinate& coordinate, Piece* piece);
+	friend void Board::setAt(char col, int row, Piece* piece);
+
 protected:
 	virtual void setPosition(const ChessCoordinate& value);
 
