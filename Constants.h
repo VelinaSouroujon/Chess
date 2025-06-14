@@ -7,6 +7,8 @@ namespace Constants
 	const char MIN_COL_COORDINATE = 'a';
 	const char MAX_COL_COORDINATE = MIN_COL_COORDINATE + BOARD_SIZE - 1;
 	const int MAX_NOTATION_LENGTH = 3;
+	const int TOTAL_MAX_NOTATION_LENGTH = 6;
+	const int PIECES_COUNT_PER_SIDE = 16;
 
 	const char ROOK_NOTATION = 'R';
 	const char KNIGHT_NOTATION = 'N';

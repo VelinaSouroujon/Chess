@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Board.h"
+#include "Game.h"
 #include "ChessCoordinate.h"
 
 class Move
@@ -14,16 +14,26 @@ private:
 	void assignCoordinates(const char* notation);
 	static ChessCoordinate convertToCoordinate(const char* notation, int letterNotationIdx);
 
+	void updateIndirectKingAttackers(const ChessCoordinate& kingCoord, OneColorPieces& attackers, const Piece& movedPiece, const Board& board) const;
+
+protected:
+	virtual Piece* getPiece(Board& board) const;
+	virtual bool isLegalMove(const Board& board, PieceColor turnToMove) const;
+
 public:
+	Move() = default;
+	virtual ~Move() = default;
 	Move(const char* notation);
+	Move(const ChessCoordinate& from, const ChessCoordinate& to, bool isCapture);
 
-	ChessCoordinate getFrom() const;
-	ChessCoordinate getTo() const;
+	const ChessCoordinate& getFrom() const;
+	const ChessCoordinate& getTo() const;
 	bool isCaptureMove() const;
+	bool tryConfigureEnPassant(const ChessCoordinate* gameEnPassantSquare, const Piece& pieceToMove, Piece* pieceToBeRemoved, Board& board) const;
 
-	virtual bool execute(Board& board) const;
+	virtual bool execute(Game& game);
 
-	static ChessCoordinate convertToCoordinateFrom(const char* notation);
-	static ChessCoordinate convertToCoordinateTo(const char* notation);
+	static const ChessCoordinate& convertToCoordinateFrom(const char* notation, char& pieceNotation);
+	static const ChessCoordinate& convertToCoordinateTo(const char* notation);
 };
 
