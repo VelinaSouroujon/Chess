@@ -12,6 +12,9 @@ private:
 	PieceColor color = PieceColor::White;
 	ChessCoordinate position;
 
+protected:
+	virtual void setPosition(const ChessCoordinate& value);
+
 public:
 	Piece(PieceColor color);
 	virtual ~Piece() = default;
@@ -25,7 +28,6 @@ public:
 	virtual wchar_t accept(const PieceRenderer& renderer) const = 0;
 
 	ChessCoordinate getPosition() const;
-	void setPosition(const ChessCoordinate& newPosition);
 	virtual Piece* clone() const = 0;
 };
 
