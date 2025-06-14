@@ -10,7 +10,7 @@ PieceColor Piece::getColor() const
     return color;
 }
 
-ChessCoordinate Piece::getPosition() const
+const ChessCoordinate& Piece::getPosition() const
 {
     return position;
 }
