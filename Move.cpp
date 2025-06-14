@@ -226,6 +226,52 @@ bool Move::execute(Game& game)
 
 	return true;
 }
+
+bool Move::canExecute(Game& game)
+{
+	Board& board = game.getChessVariant().getBoard();
+	Piece* pieceToMove = board.at(from);
+	Piece* pieceToBeRemoved = board.at(to);
+	PieceColor playingSideColor = pieceToMove->getColor();
+
+	pieceNotation = pieceToMove->getPieceNotation();
+
+	if (!isLegalMove(board, playingSideColor))
+	{
+		return false;
+	}
+
+	if (pieceToBeRemoved == nullptr && isCapture)
+	{
+		const ChessCoordinate* enPassantSquare = game.getEnPassantSquare();
+
+		if (!tryConfigureEnPassant(enPassantSquare, *pieceToMove, pieceToBeRemoved, board))
+		{
+			return false;
+		}
+	}
+
+	const ChessCoordinate& kingPosition = game.sameColorPiecesInfo(playingSideColor).getKing().getPosition();
+
+	board.simulateSetAt(from, nullptr);
+	board.simulateSetAt(to, pieceToMove);
+
+	bool isKingAttacked;
+	if (from == kingPosition)
+	{
+		isKingAttacked = game.oppositeColorPiecesInfo(playingSideColor).getPieces().isSquareAttacked(to, board, pieceToBeRemoved);
+	}
+	else
+	{
+		isKingAttacked = game.oppositeColorPiecesInfo(playingSideColor).indirectAttackersOnOppositeKing().isSquareAttacked(kingPosition, board, pieceToBeRemoved);
+	}
+
+	board.simulateSetAt(from, pieceToMove);
+	board.simulateSetAt(to, pieceToBeRemoved);
+
+	return !isKingAttacked;
+}
+
 const ChessCoordinate& Move::convertToCoordinateFrom(const char* notation, char& pieceNotation)
 {
 	if (notation == nullptr)

@@ -32,6 +32,7 @@ public:
 	bool tryConfigureEnPassant(const ChessCoordinate* gameEnPassantSquare, const Piece& pieceToMove, Piece* pieceToBeRemoved, Board& board) const;
 
 	virtual bool execute(Game& game);
+	virtual bool canExecute(Game& game);
 
 	static const ChessCoordinate& convertToCoordinateFrom(const char* notation, char& pieceNotation);
 	static const ChessCoordinate& convertToCoordinateTo(const char* notation);

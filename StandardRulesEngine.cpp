@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "StandardRulesEngine.h"
 #include "Game.h"
 #include "Move.h"
@@ -41,4 +42,135 @@ bool StandardRulesEngine::kingHasLegalMoves(const Game& game) const
     }
 
     return false;
+}
+
+bool StandardRulesEngine::canBlockCheck(Game& game, const ChessCoordinate* pathBetweenKingAndAttacker, int pathLength) const
+{
+    if (pathBetweenKingAndAttacker == nullptr)
+    {
+        throw std::invalid_argument("Path between king and checking piece cannot be null");
+    }
+
+    const OneColorPieces& awaitingSidePieces = game.awaitingSide().getPieces();
+    const Piece& awaitingSideKing = game.awaitingSide().getKing();
+
+    for (int i = 0; i < pathLength; i++)
+    {
+        const ChessCoordinate& squareBetweenKingAndAttacker = pathBetweenKingAndAttacker[i];
+
+        if (canOneSideMoveToSquare(game, awaitingSidePieces.getColor(), squareBetweenKingAndAttacker, &awaitingSideKing))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+CheckState StandardRulesEngine::getCheckState(const Game& game, int& singleCheckAttackingPieceIdx) const
+{
+    singleCheckAttackingPieceIdx = -1;
+
+    const Board& board = game.getChessVariant().getBoard();
+    const OneColorPieces& playingSideAttackers = game.playingSide().indirectAttackersOnOppositeKing();
+    int attackersCount = playingSideAttackers.getSize();
+    const ChessCoordinate& oppositeSideKingPosition = game.awaitingSide().getKing().getPosition();
+
+    CheckState checkState = CheckState::None;
+
+    for (int i = 0; i < attackersCount; i++)
+    {
+        const Piece& attackingPiece = playingSideAttackers[i];
+        const ChessCoordinate& attackingPiecePosition = attackingPiece.getPosition();
+
+        Move move(attackingPiecePosition, oppositeSideKingPosition, true);
+
+        if (attackingPiece.isValidMove(move) && (!board.isPieceBetween(attackingPiecePosition, oppositeSideKingPosition)))
+        {
+            int newCheckState = (int) checkState + 1;
+            checkState = (CheckState) newCheckState;
+
+            if (checkState == CheckState::DoubleCheck)
+            {
+                singleCheckAttackingPieceIdx = -1;
+                break;
+            }
+            else
+            {
+                singleCheckAttackingPieceIdx = i;
+            }
+        }
+    }
+
+    return checkState;
+}
+
+bool StandardRulesEngine::canOneSideMoveToSquare(Game& game, PieceColor sideColor, const ChessCoordinate& targetSquare, const Piece* excludedPiece) const
+{
+    const Board& board = game.getChessVariant().getBoard();
+    const OneColorPieces& pieces = game.sameColorPiecesInfo(sideColor).getPieces();
+    int countPieces = pieces.getSize();
+    bool isCapture = board.at(targetSquare) != nullptr;
+
+    for (int i = 0; i < countPieces; i++)
+    {
+        const Piece& currPiece = pieces[i];
+        if (&currPiece == excludedPiece)
+        {
+            continue;
+        }
+
+        const ChessCoordinate& positionCurrPiece = currPiece.getPosition();
+
+        Move move(positionCurrPiece, targetSquare, isCapture);
+
+        if (move.canExecute(game))
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+bool StandardRulesEngine::isWin(Game& game, CheckState& checkState) const
+{
+    int singleCheckAttackingPieceIdx = -1;
+    checkState = getCheckState(game, singleCheckAttackingPieceIdx);
+
+    if (checkState == CheckState::None)
+    {
+        return false;
+    }
+
+    if (kingHasLegalMoves(game))
+    {
+        return false;
+    }
+
+    if (checkState == CheckState::DoubleCheck)
+    {
+        return true;
+    }
+
+    const Board& board = game.getChessVariant().getBoard();
+    const ChessCoordinate& attackerCoord = game.playingSide().indirectAttackersOnOppositeKing()[singleCheckAttackingPieceIdx].getPosition();
+
+    const Piece& awaitingSideKing = game.awaitingSide().getKing();
+    const ChessCoordinate& coordAwaitingSideKing = awaitingSideKing.getPosition();
+
+    const int MAX_PATH_LENGTH = Constants::BOARD_SIZE - 2;
+    ChessCoordinate pathBetweenKingAndAttacker[MAX_PATH_LENGTH];
+    int pathLength = 0;
+
+    if (!board.tryGetPathBetweenTwoSquares(attackerCoord, coordAwaitingSideKing, pathBetweenKingAndAttacker, pathLength))
+    {
+        return true;
+    }
+
+    if (canOneSideMoveToSquare(game, game.getAwaitingSideColor(), attackerCoord, &awaitingSideKing))
+    {
+        return false;
+    }
+
+    return (!canBlockCheck(game, pathBetweenKingAndAttacker, pathLength));
 }
