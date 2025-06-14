@@ -21,4 +21,10 @@ namespace Constants
 
 	const char CAPTURE_DELIMITER = 'x';
 	const char FROM_TO_DELIMITER = ' ';
+
+	const char KING_SIDE_CASTLE[] = "O-O";
+	const char KING_SIDE_CASTLE_ALTERNATIVE[] = "0-0";
+
+	const char QUEEN_SIDE_CASTLE[] = "O-O-O";
+	const char QUEEN_SIDE_CASTLE_ALTERNATIVE[] = "0-0-0";
 }
