@@ -2,7 +2,19 @@
 #include "Move.h"
 #include "Directions.h"
 
-Rook::Rook(PieceColor color) : Piece(color)
+void Rook::setPosition(const ChessCoordinate& coordinate)
+{
+    if ((mediator != nullptr) && (!getIsInitialization()) && (!getHasMoved()))
+    {
+        mediator->notifyMove(*this);
+    }
+
+    MoveablePiece::setPosition(coordinate);
+}
+
+Rook::Rook(PieceColor color, PieceMediator* mediator)
+    : MoveablePiece(color),
+    mediator(mediator)
 {
 
 }

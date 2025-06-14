@@ -1,12 +1,19 @@
 #pragma once
 
-#include "Piece.h"
+#include "MoveablePiece.h"
+#include "PieceMediator.h"
 #include "ChessCoordinate.h"
 
-class King : public Piece
+class King : public MoveablePiece
 {
+private:
+	PieceMediator& mediator;
+
+protected:
+	void setPosition(const ChessCoordinate& coordinate) override;
+
 public:
-	King(PieceColor color);
+	King(PieceColor color, PieceMediator& mediator);
 
 	char getPieceNotation() const override;
 	bool isSufficientForWin() const override;

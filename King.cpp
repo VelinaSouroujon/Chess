@@ -2,7 +2,19 @@
 #include "Move.h"
 #include "Directions.h"
 
-King::King(PieceColor color) : Piece(color)
+void King::setPosition(const ChessCoordinate& coordinate)
+{
+	if ((!getIsInitialization()) && (!getHasMoved()))
+	{
+		mediator.notifyMove(*this);
+	}
+
+	MoveablePiece::setPosition(coordinate);
+}
+
+King::King(PieceColor color, PieceMediator& mediator)
+	: MoveablePiece(color),
+	mediator(mediator)
 {
 
 }

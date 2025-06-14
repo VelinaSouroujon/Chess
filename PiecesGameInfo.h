@@ -18,9 +18,12 @@ public:
 	const OneColorPieces& getPieces() const;
 	const OneColorPieces& indirectAttackersOnOppositeKing() const;
 	const Piece& getKing() const;
+	bool getKingSideCastlePossible() const;
+	bool getQueenSideCastlePossible() const;
 
 	OneColorPieces& getPieces();
 	OneColorPieces& indirectAttackersOnOppositeKing();
+	void updateAttackers(const ChessCoordinate& newKingPosition);
 
 	void impossibleKingSideCastle();
 	void impossibleQueenSideCastle();
