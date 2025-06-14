@@ -11,6 +11,10 @@ private:
 	bool canBlockCheck(Game& game, const ChessCoordinate* pathBetweenKingAndAttacker, int pathLength) const;
 	CheckState getCheckState(const Game& game, int& singleCheckAttackingPieceIdx) const;
 	bool canOneSideMoveToSquare(Game& game, PieceColor sideColor, const ChessCoordinate& targetSquare, const Piece* excludedPiece = nullptr) const;
+	bool insufficientMaterialForSide(const OneColorPieces& side) const;
+	bool isStalemate(Game& game) const;
+
 protected:
 	bool isWin(Game& game, CheckState& checkState) const override;
+	bool isDraw(Game& game) const override;
 };

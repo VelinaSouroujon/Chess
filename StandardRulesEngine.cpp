@@ -3,6 +3,9 @@
 #include "Game.h"
 #include "Move.h"
 #include "CommonUtils.h"
+#include "Array.hpp"
+#include "PieceDirection.h"
+
 bool StandardRulesEngine::kingHasLegalMoves(const Game& game) const
 {
     const OneColorPieces& pieces = game.playingSide().getPieces();
@@ -132,6 +135,83 @@ bool StandardRulesEngine::canOneSideMoveToSquare(Game& game, PieceColor sideColo
 
     return false;
 }
+
+bool StandardRulesEngine::insufficientMaterialForSide(const OneColorPieces& side) const
+{
+    const int MAX_PIECES_FOR_INSUFFICIENT_MATERIAL = 2;
+    int countPieces = side.getSize();
+
+    if (countPieces > MAX_PIECES_FOR_INSUFFICIENT_MATERIAL)
+    {
+        return false;
+    }
+    if (countPieces == 1)
+    {
+        return true;
+    }
+
+    return (!side[0].isSufficientForWin()) && (!side[1].isSufficientForWin());
+}
+
+bool StandardRulesEngine::isStalemate(Game& game) const
+{
+    const Board& board = game.getChessVariant().getBoard();
+    const Piece *const * awaitingSidePieces = game.awaitingSide().getPieces().getPieces();
+    int countAwaitingPieces = game.awaitingSide().getPieces().getSize();
+
+    for (int i = 0; i < countAwaitingPieces; i++)
+    {
+        const Piece* currPiece = awaitingSidePieces[i];
+        const ChessCoordinate& coordPiece = currPiece->getPosition();
+
+        Array<PieceDirection, Constants::MAX_DIRECTIONS_COUNT> pieceDirections;
+        currPiece->fillDirections(pieceDirections);
+
+        for (int i = 0; i < pieceDirections.length(); i++)
+        {
+            const PieceDirection& currDirection = pieceDirections[i];
+
+            for (int idxStep = 1; idxStep <= currDirection.getSteps(); idxStep++)
+            {
+                char col = coordPiece.getCol() + idxStep * currDirection.x();
+                int row = coordPiece.getRow() + idxStep * currDirection.y();
+
+                if ((!CommonUtils::isInRange(row, Constants::MIN_ROW_COORDINATE, Constants::BOARD_SIZE)) 
+                    || (!CommonUtils::isInRange(col, Constants::MIN_COL_COORDINATE, Constants::MAX_COL_COORDINATE)))
+                {
+                    break;
+                }
+
+                ChessCoordinate newCooord(col, row);
+
+                CaptureState captureState = currDirection.getCaptureState();
+                bool isCapture;
+                if (captureState == CaptureState::DoesNotMatter)
+                {
+                    isCapture = board.at(newCooord) != nullptr;
+                }
+                else
+                {
+                    isCapture = captureState == CaptureState::Capture;
+                }
+
+                Move move(coordPiece, newCooord, isCapture);
+
+                if (move.canExecute(game))
+                {
+                    return false;
+                }
+                else
+                {
+                    break;
+                }
+           }
+        }
+    }
+
+    return true;
+}
+
 bool StandardRulesEngine::isWin(Game& game, CheckState& checkState) const
 {
     int singleCheckAttackingPieceIdx = -1;
@@ -173,4 +253,11 @@ bool StandardRulesEngine::isWin(Game& game, CheckState& checkState) const
     }
 
     return (!canBlockCheck(game, pathBetweenKingAndAttacker, pathLength));
+}
+
+bool StandardRulesEngine::isDraw(Game& game) const
+{
+    return (insufficientMaterialForSide(game.playingSide().getPieces())
+        && insufficientMaterialForSide(game.awaitingSide().getPieces()))
+        || isStalemate(game);
 }

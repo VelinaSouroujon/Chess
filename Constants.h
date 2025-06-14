@@ -9,6 +9,8 @@ namespace Constants
 	const int MAX_NOTATION_LENGTH = 3;
 	const int TOTAL_MAX_NOTATION_LENGTH = 6;
 	const int PIECES_COUNT_PER_SIDE = 16;
+	const int MAX_SQUARES_ATTACKED = 27;
+	const int MAX_DIRECTIONS_COUNT = 8;
 
 	const char ROOK_NOTATION = 'R';
 	const char KNIGHT_NOTATION = 'N';

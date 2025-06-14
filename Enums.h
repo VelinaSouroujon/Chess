@@ -20,3 +20,10 @@ enum class CheckState
 	Check,
 	DoubleCheck
 };
+
+enum class CaptureState
+{
+	Capture,
+	NonCapture,
+	DoesNotMatter
+};
