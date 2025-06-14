@@ -8,13 +8,8 @@ class ChessVariant
 {
 private:
 	Board board;
-	IPieceFactory& iPieceFactory;
-
-protected:
-	const IPieceFactory& getPieceFactory() const;
 
 public:
-	ChessVariant(IPieceFactory& iPieceFactory);
 	virtual ~ChessVariant() = default;
 
 	virtual const ChessCoordinate& kingInitialPos(PieceColor color) const = 0;

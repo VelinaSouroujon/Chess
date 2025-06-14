@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ChessVariant.h"
+#include "IPieceFactory.h"
 
 class StandardChessVariant : public ChessVariant
 {
@@ -14,7 +15,7 @@ private:
 	const ChessCoordinate blackKingSideRookInitialPos;
 
 public:
-	StandardChessVariant(IPieceFactory& iPieceFactory);
+	StandardChessVariant(IPieceFactory* iPieceFactory = nullptr);
 
 	const ChessCoordinate& kingInitialPos(PieceColor color) const override;
 	const ChessCoordinate& queenSideRookInitialPos(PieceColor color) const override;
