@@ -26,7 +26,7 @@ bool Board::getPathBetweenSameRow(const ChessCoordinate& firstCoord, const Chess
 
 	if (firstCol > secondCol)
 	{
-		std::swap(firstCol, secondCol);
+		CommonUtils::swap(firstCol, secondCol);
 	}
 
 	int idxPath = 0;
@@ -57,7 +57,7 @@ bool Board::getPathBetweenSameCol(const ChessCoordinate& firstCoord, const Chess
 
 	if (firstRow > secondRow)
 	{
-		std::swap(firstRow, secondRow);
+		CommonUtils::swap(firstRow, secondRow);
 	}
 
 	int idxPath = 0;
@@ -88,7 +88,7 @@ bool Board::getPathBetweenSameDiagonalLeftToRight(const ChessCoordinate& firstCo
 
 	if (firstRow < secondRow)
 	{
-		std::swap(firstRow, secondRow);
+		CommonUtils::swap(firstRow, secondRow);
 		col = secondCoord.getCol();
 	}
 
@@ -122,7 +122,7 @@ bool Board::getPathBetweenSameDiagonalRightToLeft(const ChessCoordinate& firstCo
 
 	if (firstRow < secondRow)
 	{
-		std::swap(firstRow, secondRow);
+		CommonUtils::swap(firstRow, secondRow);
 		col = secondCoord.getCol();
 	}
 

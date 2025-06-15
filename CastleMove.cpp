@@ -1,6 +1,6 @@
-#include <utility>
 #include "CastleMove.h"
 #include "Piece.h"
+#include "CommonUtils.h"
 
 bool CastleMove::execute(Game& game)
 {
@@ -27,7 +27,7 @@ bool CastleMove::execute(Game& game)
 
     if (startColIdx > endColIdx)
     {
-        std::swap(startColIdx, endColIdx);
+        CommonUtils::swap(startColIdx, endColIdx);
     }
 
     for (char col = startColIdx; col <= endColIdx; col++)
