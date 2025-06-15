@@ -7,7 +7,7 @@
 #include "PieceDirection.h"
 #include "StringGameSerializer.h"
 
-bool StandardRulesEngine::kingHasLegalMoves(const Game& game) const
+bool StandardRulesEngine::kingHasLegalMoves(Game& game) const
 {
     const OneColorPieces& pieces = game.playingSide().getPieces();
     const Board& board = game.getChessVariant().getBoard();
@@ -32,14 +32,10 @@ bool StandardRulesEngine::kingHasLegalMoves(const Game& game) const
         }
 
         ChessCoordinate coordinate(col, row);
-        const Piece* pieceAtSquare = board.at(coordinate);
+        bool isCapture = board.at(coordinate) != nullptr;
+        Move move(oppositeSideKingPosition, coordinate, isCapture);
 
-        if ((pieceAtSquare != nullptr) && (pieceAtSquare->getColor() != turnToMove))
-        {
-            continue;
-        }
-
-        if (!pieces.isSquareAttacked(coordinate, board))
+        if (move.canExecute(game))
         {
             return true;
         }
