@@ -124,7 +124,7 @@ void Engine::run(Game& game, std::istream& is, std::ostream& os, ChessVariant& c
 
 	while (true)
 	{
-		userInterface.drawBoard(board);	
+		userInterface.renderGame(board);	
 
 		InputMoveResult result = handleMove(game, is, os);
 		while (true)
@@ -147,7 +147,7 @@ void Engine::run(Game& game, std::istream& is, std::ostream& os, ChessVariant& c
 		GameResult gameResult = game.rules().getResult(game);
 		if (gameResult != GameResult::None)
 		{
-			userInterface.drawBoard(board);
+			userInterface.renderGame(board);
 
 			if (gameResult == GameResult::Win)
 			{
