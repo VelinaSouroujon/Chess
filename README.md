@@ -1,0 +1,1 @@
+Play chess with a friend. You have to enter the moves in long algebraic notation. The starting and ending squares are separated by space, while captures are indicated by an "x". More about long algebraic notation: https://en.wikipedia.org/wiki/Algebraic_notation_(chess)#Long_algebraic_notation
