@@ -1,7 +1,12 @@
 #include <cstring>
 #include <stdexcept>
 #include "PromotionMove.h"
-#include "PieceFactory.h"
+#include "PromotionPieceFactory.h"
+
+Piece* PromotionMove::getPiece(Board& board) const
+{
+	return promotedPiece;
+}
 
 PromotionMove::PromotionMove(const char* notation) : Move(notation)
 {
@@ -22,18 +27,27 @@ PromotionMove::PromotionMove(const char* notation) : Move(notation)
 		throw std::invalid_argument("Invalid row for promotion move.");
 	}
 
-	promotedPiece = PieceFactory::createPiece(promotedPieceNotation, color);
+	PromotionPieceFactory promotionPieceFactory;
+	promotedPiece = promotionPieceFactory.createPiece(promotedPieceNotation, color);
 }
 
-bool PromotionMove::execute(Board& board) const
+bool PromotionMove::execute(Game& game)
 {
-	if (!Move::execute(board))
+	Board& board = game.getChessVariant().getBoard();
+	Piece* promotingPawn = board.at(getFrom());
+	PiecesGameInfo& playingSide = game.playingSide();
+
+	if (!Move::execute(game))
 	{
+		board.deletePiece(promotedPiece);
+		board.simulateSetAt(getFrom(), promotingPawn);
 		return false;
 	}
 
-	board.removeAt(getTo());
-	board.at(getTo()) = promotedPiece;
+	playingSide.getPieces().replace(*promotingPawn, *promotedPiece);
+	playingSide.indirectAttackersOnOppositeKing().remove(*promotingPawn);
+
+	board.deletePiece(promotingPawn);
 
 	return true;
 }
