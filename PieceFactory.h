@@ -1,10 +1,19 @@
 #pragma once
 
-#include "Piece.h"
+#include "IPieceFactory.h"
+#include "PieceMediator.h"
 
-class PieceFactory
+class PieceFactory : public IPieceFactory
 {
+private:
+	PieceMediator& enPassantMediator;
+	PieceMediator& pawnMoveMediator;
+	PieceMediator& rookMediator;
+	PieceMediator& kingMediator;
+
 public:
-	static Piece* createPiece(char pieceNotation, PieceColor color);
+	PieceFactory(PieceMediator& enPassantMediator, PieceMediator& pawnMoveMediator, PieceMediator& rookMediator, PieceMediator& kingMediator);
+
+	Piece* createPiece(char pieceNotation, PieceColor color) const override;
 };
 
