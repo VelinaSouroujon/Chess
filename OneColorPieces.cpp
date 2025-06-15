@@ -78,11 +78,7 @@ void OneColorPieces::removeAt(int idx)
         throw std::invalid_argument("Index out of range.");
     }
 
-    for (int i = idx; i < size - 1; i++)
-    {
-        pieces[i] = pieces[i + 1];
-    }
-
+    CommonUtils::swap(pieces[idx], pieces[size - 1]);
     size--;
 }
 
