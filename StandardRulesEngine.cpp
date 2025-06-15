@@ -283,14 +283,14 @@ bool StandardRulesEngine::isWin(Game& game, CheckState& checkState) const
     ChessCoordinate pathBetweenKingAndAttacker[MAX_PATH_LENGTH];
     int pathLength = 0;
 
-    if (!board.tryGetPathBetweenTwoSquares(attackerCoord, coordAwaitingSideKing, pathBetweenKingAndAttacker, pathLength))
-    {
-        return true;
-    }
-
     if (canOneSideMoveToSquare(game, game.getAwaitingSideColor(), attackerCoord, &awaitingSideKing))
     {
         return false;
+    }
+
+    if (!board.tryGetPathBetweenTwoSquares(attackerCoord, coordAwaitingSideKing, pathBetweenKingAndAttacker, pathLength))
+    {
+        return true;
     }
 
     return (!canBlockCheck(game, pathBetweenKingAndAttacker, pathLength));
