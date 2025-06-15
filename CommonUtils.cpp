@@ -1,7 +1,5 @@
-#define NOMINMAX
 #include <stdexcept>
 #include <limits>
-#include <Windows.h>
 #include "CommonUtils.h"
 
 char CommonUtils::toLower(char ch)
@@ -97,19 +95,9 @@ int CommonUtils::abs(int number)
 
 void CommonUtils::clearConsole()
 {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_SCREEN_BUFFER_INFO csbi;
-	DWORD count;
-	DWORD cellCount;
-	COORD homeCoords = { 0, 0 };
-
-	if (GetConsoleScreenBufferInfo(hConsole, &csbi))
-	{
-		cellCount = csbi.dwSize.X * csbi.dwSize.Y;
-		FillConsoleOutputCharacter(hConsole, ' ', cellCount, homeCoords, &count);
-		FillConsoleOutputAttribute(hConsole, csbi.wAttributes, cellCount, homeCoords, &count);
-		SetConsoleCursorPosition(hConsole, homeCoords);
-	}
+	std::cout << "\033[;H"; // Moves cursor to the top left
+	std::cout << "\033[2J"; // Clears the entire screen
+	std::cout << "\033[3J"; // Clears the scrollback buffer
 }
 
 int CommonUtils::readNumber(std::ostream& os, std::istream& is)
