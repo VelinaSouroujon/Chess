@@ -39,6 +39,11 @@ const PiecesGameInfo& Game::oppositeColorPiecesInfo(PieceColor color) const
         : white;
 }
 
+const List<PositionCount>& Game::getPositionsCount() const
+{
+    return positionsCount;
+}
+
 const ChessVariant& Game::getChessVariant() const
 {
     return chessVariant;
@@ -115,10 +120,20 @@ void Game::changeTurn()
     }
 }
 
+void Game::previousPositionsUnreachable()
+{
+    positionsCount.resetSize();
+}
+
 void Game::setEnPassantSquare(const ChessCoordinate& enPassantSquare)
 {
     this->enPassantSquare = enPassantSquare;
     enPassantState = EnPassantState::JustSet;
+}
+
+List<PositionCount>& Game::getPositionsCount()
+{
+    return positionsCount;
 }
 
 const RulesEngine& Game::rules() const

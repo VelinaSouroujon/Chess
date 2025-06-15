@@ -3,6 +3,9 @@
 #include "ChessVariant.h"
 #include "PiecesGameInfo.h"
 #include "RulesEngine.h"
+#include "StringGameSerializer.h"
+#include "List.hpp"
+#include "PositionCount.h"
 
 class BinaryGameSerializer;
 
@@ -20,7 +23,10 @@ private:
 	ChessCoordinate enPassantSquare;
 	EnPassantState enPassantState = EnPassantState::None;
 
+	List<PositionCount> positionsCount;
+
 public:
+	friend void StringGameSerializer::serializeGame(const Game& game, char* buffer, PieceColor turnToMove) const;
 	friend class BinaryGameSerializer;
 
 	Game(ChessVariant& chessVariant, RulesEngine& rulesEngine);
@@ -29,6 +35,7 @@ public:
 	const PiecesGameInfo& awaitingSide() const;
 	const PiecesGameInfo& sameColorPiecesInfo(PieceColor color) const;
 	const PiecesGameInfo& oppositeColorPiecesInfo(PieceColor color) const;
+	const List<PositionCount>& getPositionsCount() const;
 
 	PieceColor getTurnToMove() const;
 	PieceColor getAwaitingSideColor() const;
@@ -42,6 +49,8 @@ public:
 	PiecesGameInfo& oppositeColorPiecesInfo(PieceColor color);
 	ChessVariant& getChessVariant();
 	void changeTurn();
+	void previousPositionsUnreachable();
 	void setEnPassantSquare(const ChessCoordinate& enPassantSquare);
+	List<PositionCount>& getPositionsCount();
 };
 

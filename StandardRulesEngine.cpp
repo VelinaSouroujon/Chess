@@ -5,6 +5,7 @@
 #include "CommonUtils.h"
 #include "Array.hpp"
 #include "PieceDirection.h"
+#include "StringGameSerializer.h"
 
 bool StandardRulesEngine::kingHasLegalMoves(const Game& game) const
 {
@@ -212,6 +213,46 @@ bool StandardRulesEngine::isStalemate(Game& game) const
     return true;
 }
 
+bool StandardRulesEngine::isThreefoldRepetition(Game& game) const
+{
+    PositionCount currPosition;
+    PieceColor turnToMove = game.getTurnToMove() == PieceColor::White
+        ? PieceColor::Black
+        : PieceColor::White;
+
+    StringGameSerializer serializer;
+    serializer.serializeGame(game, currPosition.position, turnToMove);
+
+    List<PositionCount>& positionsCount = game.getPositionsCount();
+    int totalPositionsCount = positionsCount.count();
+    int idx = -1;
+
+    for (int i = 0; i < totalPositionsCount; i++)
+    {
+        if (strcmp(currPosition.position, positionsCount[i].position) == 0)
+        {
+            idx = i;
+            break;
+        }
+    }
+
+    if (idx < 0)
+    {
+        positionsCount.add(currPosition);
+    }
+    else
+    {
+        positionsCount[idx].count++;
+
+        if (positionsCount[idx].count >= REPETITION_COUNT_FOR_DRAW)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool StandardRulesEngine::isWin(Game& game, CheckState& checkState) const
 {
     int singleCheckAttackingPieceIdx = -1;
@@ -259,5 +300,7 @@ bool StandardRulesEngine::isDraw(Game& game) const
 {
     return (insufficientMaterialForSide(game.playingSide().getPieces())
         && insufficientMaterialForSide(game.awaitingSide().getPieces()))
-        || isStalemate(game);
+        || isStalemate(game)
+        || isThreefoldRepetition(game);
+}
 }
