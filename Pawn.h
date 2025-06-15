@@ -7,13 +7,14 @@
 class Pawn : public MoveablePiece
 {
 private:
-	PieceMediator& mediator;
+	PieceMediator& enPassantNotifier;
+	PieceMediator& pawnMoveNotifier;
 
 protected:
 	void setPosition(const ChessCoordinate& coordinate) override;
 
 public:
-	Pawn(PieceColor color, PieceMediator& pawnMediator);
+	Pawn(PieceColor color, PieceMediator& enPassantNotifier, PieceMediator& pawnMoveNotifier);
 
 	char getPieceNotation() const override;
 	bool isSufficientForWin() const override;

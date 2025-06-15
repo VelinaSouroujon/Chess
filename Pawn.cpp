@@ -4,6 +4,11 @@
 
 void Pawn::setPosition(const ChessCoordinate& coordinate)
 {
+	if (!getIsInitialization())
+	{
+		pawnMoveNotifier.notifyMove(*this);
+	}
+
 	const int EN_PASSANT_POSSIBLE_ROW_DIFF = 2;
 	int absRowDiff = CommonUtils::abs(coordinate.getRow() - getPosition().getRow());
 
@@ -11,13 +16,14 @@ void Pawn::setPosition(const ChessCoordinate& coordinate)
 
 	if (absRowDiff == EN_PASSANT_POSSIBLE_ROW_DIFF)
 	{
-		mediator.notifyMove(*this);
+		enPassantNotifier.notifyMove(*this);
 	}
 }
 
-Pawn::Pawn(PieceColor color, PieceMediator& pawnMediator) 
+Pawn::Pawn(PieceColor color, PieceMediator& enPassantNotifier, PieceMediator& pawnMoveNotifier)
 	: MoveablePiece(color),
-	mediator(pawnMediator)
+	enPassantNotifier(enPassantNotifier),
+	pawnMoveNotifier(pawnMoveNotifier)
 {
 
 }
