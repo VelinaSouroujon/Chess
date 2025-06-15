@@ -34,3 +34,16 @@ enum class GameResult
 	Draw,
 	Win
 };
+
+enum class InputMoveResult
+{
+	End,
+	UnsuccessfulMove,
+	SuccessfulMove
+};
+
+enum class UserInput
+{
+	MakeMove,
+	Exit
+};
