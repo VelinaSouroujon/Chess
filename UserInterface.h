@@ -15,6 +15,6 @@ public:
 	UserInterface(PieceRenderer& pieceRenderer);
 	virtual ~UserInterface() = default;
 
-	virtual void drawBoard(const Board& board) const = 0;
+	virtual void renderGame(const Board& board) const = 0;
 };
 
