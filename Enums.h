@@ -27,3 +27,10 @@ enum class CaptureState
 	NonCapture,
 	DoesNotMatter
 };
+
+enum class GameResult
+{
+	None,
+	Draw,
+	Win
+};
