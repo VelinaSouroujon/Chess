@@ -75,9 +75,13 @@ InputMoveResult Engine::handleMove(Game& game, std::istream& is, std::ostream& o
 
 		return InputMoveResult::SuccessfulMove;;
 	}
-	catch (std::exception& ex)
+	catch (const std::exception& ex)
 	{
 		os << ex.what() << std::endl;
+	}
+	catch (...)
+	{
+		os << "An error occurred";
 	}
 
 	return InputMoveResult::UnsuccessfulMove;
