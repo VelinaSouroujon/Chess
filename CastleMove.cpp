@@ -18,6 +18,10 @@ bool CastleMove::execute(Game& game)
     {
         return false;
     }
+    if (board.isPieceBetween(king->getPosition(), rook->getPosition()))
+    {
+        return false;
+    }
 
     OneColorPieces& awaitingSidePieces = game.awaitingSide().getPieces();
 
@@ -39,6 +43,8 @@ bool CastleMove::execute(Game& game)
             return false;
         }
     }
+
+    game.awaitingSide().updateAttackers(newKingPosition);
 
     const ChessCoordinate& oppositeKingCoord = game.awaitingSide().getKing().getPosition();
     Move move(newRookPosition, oppositeKingCoord, true);
