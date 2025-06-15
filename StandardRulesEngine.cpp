@@ -303,4 +303,19 @@ bool StandardRulesEngine::isDraw(Game& game) const
         || isStalemate(game)
         || isThreefoldRepetition(game);
 }
+
+GameResult StandardRulesEngine::getResult(Game& game) const
+{
+    CheckState checkState;
+    if (isWin(game, checkState))
+    {
+        return GameResult::Win;
+    }
+
+    if (checkState == CheckState::None && isDraw(game))
+    {
+        return GameResult::Draw;
+    }
+
+    return GameResult::None;
 }

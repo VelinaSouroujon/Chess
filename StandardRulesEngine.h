@@ -20,4 +20,8 @@ private:
 protected:
 	bool isWin(Game& game, CheckState& checkState) const override;
 	bool isDraw(Game& game) const override;
+
+public:
+	GameResult getResult(Game& game) const override;
 };
+
