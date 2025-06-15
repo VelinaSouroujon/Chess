@@ -222,11 +222,6 @@ void Board::simulateSetAt(char col, int row, Piece* piece)
 	simulateSetAt(coordinate, piece);
 }
 
-//void Board::createPieceOnSquare(char pieceNotation, const ChessCoordinate& square, PieceColor color)
-//{
-//	Piece* newPiece = PieceFactory::createPiece(pieceNotation, color);
-//}
-
 void Board::deletePiece(Piece*& piece)
 {
 	delete piece;

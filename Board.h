@@ -36,7 +36,6 @@ public:
 	void setAt(char col, int row, Piece* piece);
 	void simulateSetAt(char col, int row, Piece* piece);
 
-	//void createPieceOnSquare(char pieceNotation, const ChessCoordinate& square, PieceColor color);
 	void deletePiece(Piece*& piece);
 
 	bool tryGetPathBetweenTwoSquares(const ChessCoordinate& firstCoord, const ChessCoordinate& secondCoord, ChessCoordinate* path, int& pathLength) const;
