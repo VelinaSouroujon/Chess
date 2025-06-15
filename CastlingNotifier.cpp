@@ -3,25 +3,39 @@
 
 void CastlingNotifier::notifyGame(const Piece& sender)
 {
-	const ChessVariant& chessVariant = getGame().getChessVariant();
+	Game& game = getGame();
+	const ChessVariant& chessVariant = game.getChessVariant();
 	const ChessCoordinate& piecePosition = sender.getPosition();
 	PieceColor pieceColor = sender.getColor();
-	PiecesGameInfo& piecesGameInfo = getGame().sameColorPiecesInfo(pieceColor);
+	PiecesGameInfo& piecesGameInfo = game.sameColorPiecesInfo(pieceColor);
 
 	if (piecePosition == chessVariant.kingInitialPos(pieceColor))
 	{
-		piecesGameInfo.impossibleKingSideCastle();
-		piecesGameInfo.impossibleQueenSideCastle();
+		if (piecesGameInfo.getKingSideCastlePossible())
+		{
+			piecesGameInfo.impossibleKingSideCastle();
+			game.previousPositionsUnreachable();
+		}
+
+		if (piecesGameInfo.getQueenSideCastlePossible())
+		{
+			piecesGameInfo.impossibleQueenSideCastle();
+			game.previousPositionsUnreachable();
+		}
 	}
 
-	else if (piecePosition == chessVariant.kingSideRookInitialPos(pieceColor))
+	else if (piecePosition == chessVariant.kingSideRookInitialPos(pieceColor)
+		&& piecesGameInfo.getKingSideCastlePossible())
 	{
 		piecesGameInfo.impossibleKingSideCastle();
+		game.previousPositionsUnreachable();
 	}
 
-	else if (piecePosition == chessVariant.queenSideRookInitialPos(pieceColor))
+	else if (piecePosition == chessVariant.queenSideRookInitialPos(pieceColor)
+		&& piecesGameInfo.getQueenSideCastlePossible())
 	{
 		piecesGameInfo.impossibleQueenSideCastle();
+		game.previousPositionsUnreachable();
 	}
 }
 
