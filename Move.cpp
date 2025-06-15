@@ -58,6 +58,13 @@ void Move::assignCoordinates(const char* notation)
 	to[toIdx] = '\0';
 
 	this->to = convertToCoordinateTo(to);
+
+	if ((pieceNotation == Constants::PAWN_NOTATION)
+		&& (this->to.getRow() == Constants::MIN_ROW_COORDINATE || this->to.getRow() == Constants::BOARD_SIZE)
+		&& (toIdx != Constants::MAX_NOTATION_LENGTH))
+	{
+		throw std::invalid_argument("You must add the promotion piece notation at the end of the notation");
+	}
 }
 
 Move::Move(const char* notation)
@@ -217,10 +224,6 @@ bool Move::execute(Game& game)
 		awaitingSide.getPieces().remove(*pieceToBeRemoved);
 		board.deletePiece(pieceToBeRemoved);
 	}
-
-	//OneColorPieces& playingSideAttackers = playingSide.indirectAttackersOnOppositeKing();
-	//const ChessCoordinate& oppositeKingCoord = awaitingSide.getKing().getPosition();
-	//updateIndirectKingAttackers(oppositeKingCoord, playingSideAttackers, board);
 
 	updateIndirectKingAttackers(awaitingSide.getKing().getPosition(), playingSide.indirectAttackersOnOppositeKing(), *pieceToMove, board);
 
